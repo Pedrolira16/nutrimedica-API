@@ -20,22 +20,20 @@ public class UserRepository {
     }
 
     public void createUser(User user) {
-        String sql = "INSERT INTO users (name, cpf, email, password, cellphone, specialty, council_name, council_state, council_number) " +
+        String sql = "INSERT INTO users (name, cpf, email, password, cellphone, cellphone_alternative, specialty, council_name, council_state, council_number) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getCpf(), user.getEmail(), user.getPassword(),
-                            user.getCellphone(), user.getSpecialty(), user.getCouncilName(),
+                            user.getCellphone(), user.getCellphoneAlternative(), user.getSpecialty(), user.getCouncilName(),
                             user.getCouncilState(), user.getCouncilNumber());
     }
     public User getUser(String email) {
-        String sql = "SELECT * FROM users WHERE email = :email";  // Parâmetro nomeado
+        String sql = "SELECT * FROM users WHERE email = :email";
 
-        // Usando um map de parâmetros
         Map<String, Object> params = Map.of("email", email);
 
-        // Executa a consulta usando o parâmetro nomeado
         List<User> users = namedParameterJdbcTemplate.query(
             sql,
-            params,  // Parâmetros como mapa
+            params,
             (rs, rowNum) -> new User(
                 rs.getLong("id"),
                 rs.getString("name"),
@@ -43,6 +41,7 @@ public class UserRepository {
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("cellphone"),
+                rs.getString("cellphone_alternative"),
                 rs.getString("specialty"),
                 rs.getString("council_name"),
                 rs.getString("council_state"),
@@ -50,6 +49,31 @@ public class UserRepository {
             )
         );
 
-        return users.isEmpty() ? null : users.get(0);  // Retorna o primeiro usuário ou null
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    public List<User> getUsers() {
+        String sql = "SELECT * FROM users";
+        return jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> new User(
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getString("cpf"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("cellphone"),
+                rs.getString("cellphone_alternative"),
+                rs.getString("specialty"),
+                rs.getString("council_name"),
+                rs.getString("council_state"),
+                rs.getString("council_number")
+            )
+        );
+    }
+
+    public void deleteUser(Long id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }

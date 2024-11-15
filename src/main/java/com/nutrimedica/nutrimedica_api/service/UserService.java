@@ -6,6 +6,7 @@ import com.nutrimedica.nutrimedica_api.dto.User;
 import com.nutrimedica.nutrimedica_api.repository.UserRepository;
 import com.nutrimedica.nutrimedica_api.utils.JwtUtil;
 import com.nutrimedica.nutrimedica_api.utils.PasswordUtils;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -39,5 +40,17 @@ public class UserService {
         String jwtToken = JwtUtil.generateToken(findUser.getId());
 
         return jwtToken;
+    }
+
+    public List<User> getUsers() {
+        return userRepository.getUsers();
+    }
+
+    public void deleteUser(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID inválido.");
+        }
+
+        userRepository.deleteUser(id);
     }
 }

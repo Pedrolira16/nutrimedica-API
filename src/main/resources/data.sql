@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users(
 	email VARCHAR(250) NOT NULL UNIQUE,
 	password VARCHAR(250) NOT NULL,
 	cellphone VARCHAR(25) NOT NULL,
+	cellphone_alternative VARCHAR(25),
 	specialty VARCHAR(250) NOT NULL,
 	council_name VARCHAR(25),
 	council_state VARCHAR(25),
@@ -42,5 +43,3 @@ CREATE TABLE IF NOT EXISTS places(
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-

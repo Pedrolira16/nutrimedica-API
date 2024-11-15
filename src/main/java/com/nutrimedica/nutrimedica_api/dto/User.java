@@ -23,19 +23,23 @@ public class User {
     @NotEmpty(message = "Celular é obrigatório")
     private String cellphone;
 
+    private String cellphoneAlternative;
+
     private String specialty;
     private String councilName;
     private String councilState;
     private String councilNumber;
 
-    public User(Long id, String name, String cpf, String email, String password, String cellphone, String specialty,
-                String councilName, String councilState, String councilNumber) {
+    public User(long id, String name, String cpf, String email, String password, String cellphone,
+                String cellphoneAlternative, String specialty, String councilName,
+                String councilState, String councilNumber) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.email = email;
         this.password = password;
         this.cellphone = cellphone;
+        this.cellphoneAlternative = cellphoneAlternative;
         this.specialty = specialty;
         this.councilName = councilName;
         this.councilState = councilState;
@@ -64,6 +68,10 @@ public class User {
 
     public String getCellphone() {
         return cellphone;
+    }
+
+    public String getCellphoneAlternative() {
+        return cellphoneAlternative;
     }
 
     public String getSpecialty() {
@@ -104,6 +112,10 @@ public class User {
 
     public void setCellphone(String cellphone) {
         this.cellphone = cellphone;
+    }
+
+    public void setCellphoneAlternative(String cellphoneAlternative) {
+        this.cellphoneAlternative = cellphoneAlternative;
     }
 
     public void setSpecialty(String specialty) {
