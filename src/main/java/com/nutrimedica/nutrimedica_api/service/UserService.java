@@ -53,4 +53,13 @@ public class UserService {
 
         userRepository.deleteUser(id);
     }
+
+    public void updateUser(Long id, User user) {
+        user.setId(id);
+
+        String encryptedPassword = PasswordUtils.encryptPassword(user.getPassword());
+        user.setPassword(encryptedPassword);
+
+		userRepository.updateUser(user);
+    }
 }

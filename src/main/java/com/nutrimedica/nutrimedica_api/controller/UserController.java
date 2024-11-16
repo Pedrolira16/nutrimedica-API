@@ -1,6 +1,6 @@
 package com.nutrimedica.nutrimedica_api.controller;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +40,11 @@ public class UserController {
         userService.deleteUser(id);
         return "User deleted successfully!";
 
+    }
+
+    @PutMapping("/{id}")
+    public String updateUser(@PathVariable Long id, @RequestBody User user) {
+        userService.updateUser(id, user);
+        return "User updated successfully!";
     }
 }

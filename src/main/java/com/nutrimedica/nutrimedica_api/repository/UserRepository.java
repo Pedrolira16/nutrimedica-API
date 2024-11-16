@@ -13,7 +13,6 @@ public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
     public UserRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -75,5 +74,12 @@ public class UserRepository {
     public void deleteUser(Long id) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    public void updateUser(User user) {
+        String sql = "UPDATE users SET name = ?, cpf = ?, email = ?, password = ?, cellphone = ?, cellphone_alternative = ?, specialty = ?, council_name = ?, council_state = ?, council_number = ? WHERE id = ?";
+        jdbcTemplate.update(sql, user.getName(), user.getCpf(), user.getEmail(), user.getPassword(),
+                            user.getCellphone(), user.getCellphoneAlternative(), user.getSpecialty(), user.getCouncilName(),
+                            user.getCouncilState(), user.getCouncilNumber(), user.getId());
     }
 }

@@ -1,6 +1,6 @@
 package com.nutrimedica.nutrimedica_api.dto;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 public class User {
     private Long id;

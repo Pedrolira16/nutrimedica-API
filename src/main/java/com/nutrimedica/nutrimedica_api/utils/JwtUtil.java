@@ -5,11 +5,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import jakarta.servlet.http.HttpServletRequest;
+
 
 public class JwtUtil {
 
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final String SECRET = "sua-chave-secreta-super-segura-para-o-jwt-nutrimedica";
+    private static final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
     public static String generateToken(Long id) {
         long expirationTime = 86400000;
@@ -22,6 +26,14 @@ public class JwtUtil {
                    .setIssuedAt(now)
                    .setExpiration(expirationDate)
                    .compact();
+        }
+
+    public static Long extractUserId(String token) {
+        Claims claims = validateToken(token);
+        if (claims != null) {
+            return claims.get("id", Long.class);
+        }
+        return null;
     }
 
     public static Claims validateToken(String token) {
@@ -34,5 +46,15 @@ public class JwtUtil {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static String extractToken(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+
+        if (token == null || !token.startsWith("Bearer ")) {
+            return null;
+        }
+
+        return token.substring(7);
     }
 }
