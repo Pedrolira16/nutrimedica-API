@@ -1,6 +1,6 @@
 package com.nutrimedica.nutrimedica_api.service;
 
-import com.nutrimedica.nutrimedica_api.dto.Patient; // Importe do pacote correto
+import com.nutrimedica.nutrimedica_api.dto.Patient;
 import com.nutrimedica.nutrimedica_api.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

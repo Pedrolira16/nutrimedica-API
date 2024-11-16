@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import jakarta.servlet.http.HttpServletRequest;
 
-
 public class JwtUtil {
 
     private static final String SECRET = "sua-chave-secreta-super-segura-para-o-jwt-nutrimedica";
