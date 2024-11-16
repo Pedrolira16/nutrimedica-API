@@ -27,7 +27,7 @@ public class PlaceController {
 		String token = JwtUtil.extractToken(request);
 
 		if (token == null) {
-			return "Unauthorized: Missing or invalid token.";
+			return "Unauthorized: Invalid token.";
 		}
 
 		Long userId = JwtUtil.extractUserId(token);
@@ -45,7 +45,7 @@ public class PlaceController {
 		String token = JwtUtil.extractToken(request);
 
 		if (token == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Missing or invalid token.");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
 		}
 
 		Long userId = JwtUtil.extractUserId(token);
@@ -63,7 +63,7 @@ public class PlaceController {
 		String token = JwtUtil.extractToken(request);
 
 		if (token == null) {
-			return "Unauthorized: Missing or invalid token.";
+			return "Unauthorized: Invalid token.";
 		}
 
 		Long userId = JwtUtil.extractUserId(token);
@@ -81,7 +81,7 @@ public class PlaceController {
 		String token = JwtUtil.extractToken(request);
 
 		if (token == null) {
-			return "Unauthorized: Missing or invalid token.";
+			return "Unauthorized: Invalid token.";
 		}
 
 		Long userId = JwtUtil.extractUserId(token);

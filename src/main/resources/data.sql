@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS attendances(
 	patient_id INT NOT NULL,
 	user_id INT NOT NULL,
 	place_id INT NOT NULL,
-	agenda_event_id INT NOT NULL,
+	agenda_event_id INT,
 	done BOOLEAN DEFAULT FALSE,
 	start_date DATE NOT NULL,
 	end_date DATE NOT NULL,
@@ -73,4 +73,3 @@ CREATE TABLE IF NOT EXISTS attendances(
 	FOREIGN KEY (place_id) REFERENCES places(id),
 	FOREIGN KEY (agenda_event_id) REFERENCES agenda_events(id)
 );
-

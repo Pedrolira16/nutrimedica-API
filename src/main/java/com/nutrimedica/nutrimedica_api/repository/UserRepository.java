@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.nutrimedica.nutrimedica_api.dto.User;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserRepository {
@@ -18,21 +18,42 @@ public class UserRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        return jdbcTemplate.query(
+                sql,
+                ps -> ps.setLong(1, id),
+                rs -> rs.next()
+                        ? Optional.of(new User(
+                                rs.getLong("id"),
+                                rs.getString("name"),
+                                rs.getString("cpf"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                rs.getString("cellphone"),
+                                rs.getString("cellphone_alternative"),
+                                rs.getString("specialty"),
+                                rs.getString("council_name"),
+                                rs.getString("council_state"),
+                                rs.getString("council_number")
+                        ))
+                        : Optional.empty()
+        );
+    }
+
     public void createUser(User user) {
         String sql = "INSERT INTO users (name, cpf, email, password, cellphone, cellphone_alternative, specialty, council_name, council_state, council_number) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getCpf(), user.getEmail(), user.getPassword(),
                             user.getCellphone(), user.getCellphoneAlternative(), user.getSpecialty(), user.getCouncilName(),
                             user.getCouncilState(), user.getCouncilNumber());
     }
+
     public User getUser(String email) {
-        String sql = "SELECT * FROM users WHERE email = :email";
-
-        Map<String, Object> params = Map.of("email", email);
-
-        List<User> users = namedParameterJdbcTemplate.query(
+        String sql = "SELECT * FROM users WHERE email = ?";
+        return jdbcTemplate.queryForObject(
             sql,
-            params,
+            new Object[]{email},
             (rs, rowNum) -> new User(
                 rs.getLong("id"),
                 rs.getString("name"),
@@ -47,8 +68,6 @@ public class UserRepository {
                 rs.getString("council_number")
             )
         );
-
-        return users.isEmpty() ? null : users.get(0);
     }
 
     public List<User> getUsers() {
