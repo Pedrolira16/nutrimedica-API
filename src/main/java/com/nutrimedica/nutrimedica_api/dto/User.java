@@ -1,8 +1,13 @@
 package com.nutrimedica.nutrimedica_api.dto;
 
 import jakarta.validation.constraints.*;
+import com.nutrimedica.nutrimedica_api.dto.Doctor;
+import com.nutrimedica.nutrimedica_api.dto.Receptionist;
 
 public class User {
+    private Doctor doctor;
+    private Receptionist receptionist;
+
     private Long id;
 
     @NotEmpty(message = "Nome é obrigatório")
@@ -25,14 +30,8 @@ public class User {
 
     private String cellphoneAlternative;
 
-    private String specialty;
-    private String councilName;
-    private String councilState;
-    private String councilNumber;
-
     public User(long id, String name, String cpf, String email, String password, String cellphone,
-                String cellphoneAlternative, String specialty, String councilName,
-                String councilState, String councilNumber) {
+                String cellphoneAlternative) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -40,10 +39,6 @@ public class User {
         this.password = password;
         this.cellphone = cellphone;
         this.cellphoneAlternative = cellphoneAlternative;
-        this.specialty = specialty;
-        this.councilName = councilName;
-        this.councilState = councilState;
-        this.councilNumber = councilNumber;
     }
 
     public Long getId() {
@@ -74,22 +69,6 @@ public class User {
         return cellphoneAlternative;
     }
 
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    public String getCouncilName() {
-        return councilName;
-    }
-
-    public String getCouncilState() {
-        return councilState;
-    }
-
-    public String getCouncilNumber() {
-        return councilNumber;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -118,19 +97,19 @@ public class User {
         this.cellphoneAlternative = cellphoneAlternative;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setCouncilName(String councilName) {
-        this.councilName = councilName;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public void setCouncilState(String councilState) {
-        this.councilState = councilState;
+    public Receptionist getReceptionist() {
+        return receptionist;
     }
 
-    public void setCouncilNumber(String councilNumber) {
-        this.councilNumber = councilNumber;
+    public void setReceptionist(Receptionist receptionist) {
+        this.receptionist = receptionist;
     }
 }

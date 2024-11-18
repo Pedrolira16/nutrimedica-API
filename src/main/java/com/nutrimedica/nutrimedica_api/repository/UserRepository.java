@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.nutrimedica.nutrimedica_api.dto.User;
+import com.nutrimedica.nutrimedica_api.dto.Doctor;
+import com.nutrimedica.nutrimedica_api.dto.Receptionist;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,22 +33,17 @@ public class UserRepository {
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 rs.getString("cellphone"),
-                                rs.getString("cellphone_alternative"),
-                                rs.getString("specialty"),
-                                rs.getString("council_name"),
-                                rs.getString("council_state"),
-                                rs.getString("council_number")
+                                rs.getString("cellphone_alternative")
                         ))
                         : Optional.empty()
         );
     }
 
     public void createUser(User user) {
-        String sql = "INSERT INTO users (name, cpf, email, password, cellphone, cellphone_alternative, specialty, council_name, council_state, council_number) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, cpf, email, password, cellphone, cellphone_alternative) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getCpf(), user.getEmail(), user.getPassword(),
-                            user.getCellphone(), user.getCellphoneAlternative(), user.getSpecialty(), user.getCouncilName(),
-                            user.getCouncilState(), user.getCouncilNumber());
+                            user.getCellphone(), user.getCellphoneAlternative());
     }
 
     public User getUser(String email) {
@@ -61,32 +58,46 @@ public class UserRepository {
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("cellphone"),
-                rs.getString("cellphone_alternative"),
-                rs.getString("specialty"),
-                rs.getString("council_name"),
-                rs.getString("council_state"),
-                rs.getString("council_number")
+                rs.getString("cellphone_alternative")
             )
         );
     }
 
     public List<User> getUsers() {
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT u.*, d.council_name, d.council_state, d.council_number, r.shift " +
+                     "FROM users u LEFT JOIN doctors d ON u.id = d.user_id"
+                        + " LEFT JOIN receptionists r ON u.id = r.user_id"
+                     ;
         return jdbcTemplate.query(
             sql,
-            (rs, rowNum) -> new User(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getString("cpf"),
-                rs.getString("email"),
-                rs.getString("password"),
-                rs.getString("cellphone"),
-                rs.getString("cellphone_alternative"),
-                rs.getString("specialty"),
-                rs.getString("council_name"),
-                rs.getString("council_state"),
-                rs.getString("council_number")
-            )
+            (rs, rowNum) -> {
+                User user = new User(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getString("cpf"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("cellphone"),
+                    rs.getString("cellphone_alternative")
+                );
+                if (rs.getString("council_name") != null) {
+                    Doctor doctor = new Doctor(
+                        rs.getLong("id"),
+                        rs.getString("council_name"),
+                        rs.getString("council_state"),
+                        rs.getString("council_number")
+                    );
+                    user.setDoctor(doctor);
+                }
+                if (rs.getString("shift") != null) {
+                    Receptionist receptionist = new Receptionist(
+                        rs.getLong("id"),
+                        rs.getString("shift")
+                    );
+                    user.setReceptionist(receptionist);
+                }
+                return user;
+            }
         );
     }
 
@@ -96,9 +107,8 @@ public class UserRepository {
     }
 
     public void updateUser(User user) {
-        String sql = "UPDATE users SET name = ?, cpf = ?, email = ?, password = ?, cellphone = ?, cellphone_alternative = ?, specialty = ?, council_name = ?, council_state = ?, council_number = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, cpf = ?, email = ?, password = ?, cellphone = ?, cellphone_alternative = ? WHERE id = ?";
         jdbcTemplate.update(sql, user.getName(), user.getCpf(), user.getEmail(), user.getPassword(),
-                            user.getCellphone(), user.getCellphoneAlternative(), user.getSpecialty(), user.getCouncilName(),
-                            user.getCouncilState(), user.getCouncilNumber(), user.getId());
+                            user.getCellphone(), user.getCellphoneAlternative(),  user.getId());
     }
 }

@@ -6,13 +6,23 @@ CREATE TABLE IF NOT EXISTS users(
 	password VARCHAR(250) NOT NULL,
 	cellphone VARCHAR(25) NOT NULL,
 	cellphone_alternative VARCHAR(25),
-	specialty VARCHAR(250) NOT NULL,
-	council_name VARCHAR(25),
-	council_state VARCHAR(25),
-	council_number VARCHAR(25),
 	is_deleted BOOLEAN DEFAULT FALSE,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS doctors (
+    user_id INT PRIMARY KEY,
+    council_name VARCHAR(25),
+    council_state VARCHAR(25),
+    council_number VARCHAR(25),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS receptionists (
+    user_id INT PRIMARY KEY,
+    shift VARCHAR(50),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS patients(
