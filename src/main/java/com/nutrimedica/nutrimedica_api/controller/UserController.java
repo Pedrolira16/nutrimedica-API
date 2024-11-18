@@ -35,6 +35,16 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("/doctors")
+    public List<User> getUsersDoctors() {
+        return userService.getUsersDoctors();
+    }
+
+    @GetMapping("/receptionists")
+    public List<User> getUsersReceptionists() {
+        return userService.getUsersReceptionists();
+    }
+
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

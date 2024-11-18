@@ -46,6 +46,14 @@ public class UserService {
         return userRepository.getUsers();
     }
 
+    public List<User> getUsersDoctors() {
+        return userRepository.getUsersDoctors();
+    }
+
+    public List<User> getUsersReceptionists() {
+        return userRepository.getUsersReceptionists();
+    }
+
     public void deleteUser(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("ID inválido.");

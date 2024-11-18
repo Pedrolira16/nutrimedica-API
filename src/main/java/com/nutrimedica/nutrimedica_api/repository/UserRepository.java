@@ -101,6 +101,60 @@ public class UserRepository {
         );
     }
 
+    public List<User> getUsersDoctors() {
+        String sql = "SELECT u.*, d.council_name, d.council_state, d.council_number " +
+                     "FROM users u LEFT JOIN doctors d ON u.id = d.user_id" +
+                     " WHERE d.council_name IS NOT NULL";
+        return jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> {
+                User user = new User(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getString("cpf"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("cellphone"),
+                    rs.getString("cellphone_alternative")
+                );
+                Doctor doctor = new Doctor(
+                    rs.getLong("id"),
+                    rs.getString("council_name"),
+                    rs.getString("council_state"),
+                    rs.getString("council_number")
+                );
+                user.setDoctor(doctor);
+                return user;
+            }
+        );
+    }
+
+    public List<User> getUsersReceptionists() {
+        String sql = "SELECT u.*, r.shift " +
+                     "FROM users u LEFT JOIN receptionists r ON u.id = r.user_id " +
+                     "WHERE r.shift IS NOT NULL";
+        return jdbcTemplate.query(
+            sql,
+            (rs, rowNum) -> {
+                User user = new User(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getString("cpf"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("cellphone"),
+                    rs.getString("cellphone_alternative")
+                );
+                Receptionist receptionist = new Receptionist(
+                    rs.getLong("id"),
+                    rs.getString("shift")
+                );
+                user.setReceptionist(receptionist);
+                return user;
+            }
+        );
+    }
+
     public void deleteUser(Long id) {
         String deleteDoctorSql = "DELETE FROM doctors WHERE user_id = ?";
         jdbcTemplate.update(deleteDoctorSql, id);
