@@ -102,8 +102,14 @@ public class UserRepository {
     }
 
     public void deleteUser(Long id) {
-        String sql = "DELETE FROM users WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        String deleteDoctorSql = "DELETE FROM doctors WHERE user_id = ?";
+        jdbcTemplate.update(deleteDoctorSql, id);
+
+        String deleteReceptionistSql = "DELETE FROM receptionists WHERE user_id = ?";
+        jdbcTemplate.update(deleteReceptionistSql, id);
+
+        String deleteUserSql = "DELETE FROM users WHERE id = ?";
+        jdbcTemplate.update(deleteUserSql, id);
     }
 
     public void updateUser(User user) {
