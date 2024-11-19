@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -113,5 +114,41 @@ public class AttendanceController {
 
 		attendanceService.updateAttendance(id, attendance);
 		return "Attendance updated successfully!";
+	}
+
+	@GetMapping("/statistics")
+    public ResponseEntity<?> getGeneralStatistics(HttpServletRequest request) {
+        String token = JwtUtil.extractToken(request);
+
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
+        }
+
+        Long userId = JwtUtil.extractUserId(token);
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
+        }
+
+        Map<String, Integer> statistics = attendanceService.getGeneralStatistics();
+        return ResponseEntity.ok(statistics);
+    }
+
+	@GetMapping("/statistics/user")
+	public ResponseEntity<?> getStatisticsByUser(HttpServletRequest request) {
+		String token = JwtUtil.extractToken(request);
+
+		if (token == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
+		}
+
+		Long userId = JwtUtil.extractUserId(token);
+
+		if (userId == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
+		}
+
+		Map<String, Integer> statistics = attendanceService.getStatisticsByUser(userId);
+		return ResponseEntity.ok(statistics);
 	}
 }

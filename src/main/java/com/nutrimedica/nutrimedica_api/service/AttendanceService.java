@@ -11,6 +11,8 @@ import com.nutrimedica.nutrimedica_api.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class AttendanceService {
@@ -65,4 +67,30 @@ public class AttendanceService {
 	public List<Attendance> listById(Long id) {
 		return attendanceRepository.listById(id);
 	}
+
+    public Map<String, Integer> getGeneralStatistics() {
+        int totalAttendances = attendanceRepository.countTotalAttendances();
+        int completedAttendances = attendanceRepository.countCompletedAttendances();
+        int pendingAttendances = attendanceRepository.countPendingAttendances();
+
+        Map<String, Integer> statistics = new HashMap<>();
+        statistics.put("totalAttendances", totalAttendances);
+        statistics.put("completedAttendances", completedAttendances);
+        statistics.put("pendingAttendances", pendingAttendances);
+
+        return statistics;
+    }
+
+    public Map<String, Integer> getStatisticsByUser(Long userId) {
+        int totalAttendances = attendanceRepository.countTotalAttendancesByUser(userId);
+        int completedAttendances = attendanceRepository.countCompletedAttendancesByUser(userId);
+        int pendingAttendances = attendanceRepository.countPendingAttendancesByUser(userId);
+
+        Map<String, Integer> statistics = new HashMap<>();
+        statistics.put("totalAttendances", totalAttendances);
+        statistics.put("completedAttendances", completedAttendances);
+        statistics.put("pendingAttendances", pendingAttendances);
+
+        return statistics;
+    }
 }

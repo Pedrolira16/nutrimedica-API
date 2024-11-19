@@ -71,4 +71,44 @@ public class AttendanceRepository {
 			)
 		);
 	}
+
+	public int countCompletedAttendances() {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE done = true";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	public int countTotalAttendances() {
+		String sql = "SELECT COUNT(*) FROM attendances";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	public int countPendingAttendances() {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE done = false";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	public int countcompletdUserAttendances(Long id) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE done = true AND user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, id);
+	}
+	public int countTotalUserAttendances(Long id) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, id);
+	}
+	public int countPendingUserAttendances(Long id) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE done = false AND user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, id);
+	}
+
+	public int countCompletedAttendancesByUser(Long userId) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE done = true AND user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+	}
+
+	public int countTotalAttendancesByUser(Long userId) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+	}
+
+	public int countPendingAttendancesByUser(Long userId) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE done = false AND user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+	}
 }
