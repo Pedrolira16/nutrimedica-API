@@ -9,13 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import com.nutrimedica.nutrimedica_api.dto.Specialty;
 
 @RestController
 @RequestMapping("users/doctors")
 public class DoctorController {
 
 	private final DoctorService doctorService;
-
 	@Autowired
 	public DoctorController(DoctorService doctorService) {
 		this.doctorService = doctorService;
@@ -43,5 +43,12 @@ public class DoctorController {
 
 		doctorService.updateDoctor(id, doctor);
 		return "Doctor updated successfully!";
+	}
+
+	@PostMapping("/specialties")
+	public ResponseEntity<String> addSpecialty(@RequestParam Long id, @RequestBody Specialty specialty) {
+		String name = specialty.getName();
+		doctorService.addSpecialty(id, name);
+		return new ResponseEntity<>("Specialty added successfully!", HttpStatus.OK);
 	}
 }

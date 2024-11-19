@@ -83,3 +83,16 @@ CREATE TABLE IF NOT EXISTS attendances(
 	FOREIGN KEY (place_id) REFERENCES places(id),
 	FOREIGN KEY (agenda_event_id) REFERENCES agenda_events(id)
 );
+
+CREATE TABLE IF NOT EXISTS specialties(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS doctor_specialties(
+	doctor_id INT NOT NULL,
+	specialty_id INT NOT NULL,
+	PRIMARY KEY (doctor_id, specialty_id),
+	FOREIGN KEY (doctor_id) REFERENCES doctors(user_id),
+	FOREIGN KEY (specialty_id) REFERENCES specialties(id)
+);

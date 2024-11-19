@@ -43,4 +43,15 @@ public class DoctorRepository {
 		String sql = "UPDATE doctors SET council_name = ?, council_state = ?, council_number = ? WHERE user_id = ?";
 		jdbcTemplate.update(sql, doctor.getCouncilName(), doctor.getCouncilState(), doctor.getCouncilNumber(), doctor.getUserId());
 	}
+
+	public void addDoctorSpecialty(Long doctorId, Long specialtyId) {
+		String sql = "INSERT INTO doctor_specialties (doctor_id, specialty_id) VALUES (?, ?)";
+		jdbcTemplate.update(sql, doctorId, specialtyId);
+	}
+
+	public Long createSpecialty(String name) {
+		String sql = "INSERT INTO specialties (name) VALUES (?)";
+		jdbcTemplate.update(sql, name);
+		return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+	}
 }

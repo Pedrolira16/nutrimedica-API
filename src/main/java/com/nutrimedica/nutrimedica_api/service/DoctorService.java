@@ -24,4 +24,9 @@ public class DoctorService {
 		doctor.setUserId(id);
 		doctorRepository.updateDoctor(doctor);
 	}
+
+	public void addSpecialty(Long id, String name) {
+		Long specialtyId = doctorRepository.createSpecialty(name);
+		doctorRepository.addDoctorSpecialty(id, specialtyId);
+	}
 }
