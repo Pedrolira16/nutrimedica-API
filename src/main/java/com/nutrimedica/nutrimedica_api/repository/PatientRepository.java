@@ -70,7 +70,7 @@ public class PatientRepository {
     }
 
     public void updatePatient(Patient patient) {
-        String sql = "UPDATE patients SET name = ?, cpf = ?, email = ?, cellphone = ?, born_date = ?, observation = ?, blood_type = ? address = ?, num = ?, WHERE id = ?";
+        String sql = "UPDATE patients SET name = ?, cpf = ?, email = ?, cellphone = ?, born_date = ?, observation = ?, blood_type = ?, address = ?, num = ? WHERE id = ?";
         jdbcTemplate.update(sql, patient.getName(), patient.getCpf(), patient.getEmail(), patient.getCellphone(),
                             patient.getBornDate(), patient.getObservation(), patient.getBloodType(),patient.getAddress(),patient.getNum() ,patient.getId());
     }
