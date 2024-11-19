@@ -112,6 +112,26 @@ public class AttendanceRepository {
 		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
 	}
 
+	public int countTodayAttendances() {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE DATE(start_date) = CURDATE()";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+
+	public int countWeekAttendances() {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE YEARWEEK(DATE(start_date), 1) = YEARWEEK(CURDATE(), 1)";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+
+	public int countTodayAttendancesByUser(Long userId) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE DATE(start_date) = CURDATE() AND user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+	}
+
+	public int countWeekAttendancesByUser(Long userId) {
+		String sql = "SELECT COUNT(*) FROM attendances WHERE YEARWEEK(DATE(start_date), 1) = YEARWEEK(CURDATE(), 1) AND user_id = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+	}
+
 	public int getPerformancesStatistics() {
 		String sql = "SELECT COUNT(*) FROM ( " +
 					 "    SELECT user_id, COUNT(*) AS total_attendances " +

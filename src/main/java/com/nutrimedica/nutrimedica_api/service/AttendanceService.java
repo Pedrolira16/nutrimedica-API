@@ -72,11 +72,15 @@ public class AttendanceService {
         int totalAttendances = attendanceRepository.countTotalAttendances();
         int completedAttendances = attendanceRepository.countCompletedAttendances();
         int pendingAttendances = attendanceRepository.countPendingAttendances();
+        int totalAttendancesToday = attendanceRepository.countTodayAttendances();
+        int totalAttendancesThisWeek = attendanceRepository.countWeekAttendances();
 
         Map<String, Integer> statistics = new HashMap<>();
         statistics.put("totalAttendances", totalAttendances);
         statistics.put("completedAttendances", completedAttendances);
         statistics.put("pendingAttendances", pendingAttendances);
+        statistics.put("totalAttendancesToday", totalAttendancesToday);
+        statistics.put("totalAttendancesThisWeek", totalAttendancesThisWeek);
 
         return statistics;
     }
@@ -85,11 +89,15 @@ public class AttendanceService {
         int totalAttendances = attendanceRepository.countTotalAttendancesByUser(userId);
         int completedAttendances = attendanceRepository.countCompletedAttendancesByUser(userId);
         int pendingAttendances = attendanceRepository.countPendingAttendancesByUser(userId);
+        int totalAttendancesToday = attendanceRepository.countTodayAttendancesByUser(userId);
+        int totalAttendancesThisWeek = attendanceRepository.countWeekAttendancesByUser(userId);
 
         Map<String, Integer> statistics = new HashMap<>();
         statistics.put("totalAttendances", totalAttendances);
         statistics.put("completedAttendances", completedAttendances);
         statistics.put("pendingAttendances", pendingAttendances);
+        statistics.put("totalAttendancesToday", totalAttendancesToday);
+        statistics.put("totalAttendancesThisWeek", totalAttendancesThisWeek);
 
         return statistics;
     }
