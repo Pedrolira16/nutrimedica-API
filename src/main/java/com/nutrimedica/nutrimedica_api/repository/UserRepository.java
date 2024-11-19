@@ -171,4 +171,43 @@ public class UserRepository {
         jdbcTemplate.update(sql, user.getName(), user.getCpf(), user.getEmail(), user.getPassword(),
                             user.getCellphone(), user.getCellphoneAlternative(),  user.getId());
     }
+
+    public User getUserDetail(Long id) {
+        String sql = "SELECT u.*, d.council_name, d.council_state, d.council_number, r.shift " +
+                     "FROM users u LEFT JOIN doctors d ON u.id = d.user_id" +
+                     " LEFT JOIN receptionists r ON u.id = r.user_id" +
+                     " WHERE u.id = ?";
+        return jdbcTemplate.queryForObject(
+            sql,
+            new Object[]{id},
+            (rs, rowNum) -> {
+                User user = new User(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getString("cpf"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("cellphone"),
+                    rs.getString("cellphone_alternative")
+                );
+                if (rs.getString("council_name") != null) {
+                    Doctor doctor = new Doctor(
+                        rs.getLong("id"),
+                        rs.getString("council_name"),
+                        rs.getString("council_state"),
+                        rs.getString("council_number")
+                    );
+                    user.setDoctor(doctor);
+                }
+                if (rs.getString("shift") != null) {
+                    Receptionist receptionist = new Receptionist(
+                        rs.getLong("id"),
+                        rs.getString("shift")
+                    );
+                    user.setReceptionist(receptionist);
+                }
+                return user;
+            }
+        );
+    }
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.nutrimedica.nutrimedica_api.dto.User;
 import com.nutrimedica.nutrimedica_api.service.UserService;
 import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import com.nutrimedica.nutrimedica_api.utils.JwtUtil;
 
 @RestController
 @RequestMapping("/users")
@@ -33,6 +35,23 @@ public class UserController {
     @GetMapping
     public List<User> getUsers() {
         return userService.getUsers();
+    }
+
+    @GetMapping("/userDetail")
+    public User getUserDetail(HttpServletRequest request) {
+        String token = JwtUtil.extractToken(request);
+
+        if (token == null) {
+            throw new IllegalArgumentException("Unauthorized: Invalid token.");
+        }
+
+        Long userId = JwtUtil.extractUserId(token);
+
+        if (userId == null) {
+            throw new IllegalArgumentException("Unauthorized: Invalid token.");
+        }
+
+        return userService.getUserDetail(userId);
     }
 
     @GetMapping("/doctors")

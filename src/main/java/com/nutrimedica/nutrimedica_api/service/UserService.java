@@ -70,4 +70,8 @@ public class UserService {
 
 		userRepository.updateUser(user);
     }
+
+    public User getUserDetail(Long id) {
+        return userRepository.getUserDetail(id);
+    }
 }
