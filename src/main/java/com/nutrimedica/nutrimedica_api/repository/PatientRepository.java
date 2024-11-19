@@ -17,7 +17,7 @@ public class PatientRepository {
 
     public void createPatient(Patient patient) {
         String sql = "INSERT INTO patients (name, cpf, email, cellphone, born_date, observation, blood_type, address, number)" +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(sql, patient.getName(), patient.getCpf(), patient.getEmail(), patient.getCellphone(),
                             patient.getBornDate(), patient.getObservation(), patient.getBloodType(), patient.getAddress(), patient.getNumber());
