@@ -20,7 +20,7 @@ public class PatientRepository {
                      "VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 
         jdbcTemplate.update(sql, patient.getName(), patient.getCpf(), patient.getEmail(), patient.getCellphone(),
-                            patient.getBornDate(), patient.getObservation(), patient.getBloodType());
+                            patient.getBornDate(), patient.getObservation(), patient.getBloodType(), patient.getAddress(), patient.getNumber());
     }
 
     public Optional<Patient> findById(Long id) {
