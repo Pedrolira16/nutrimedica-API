@@ -33,9 +33,9 @@ public class Patient {
 	@Size(max = 25)
 	private String bloodType;
 	private String address;
-	private String number;
+	private String num;
 
-	public Patient(Long id, String name, String cpf, String email, String cellphone, LocalDate bornDate, String observation, String bloodType, String address, String number) {
+	public Patient(Long id, String name, String cpf, String email, String cellphone, LocalDate bornDate, String observation, String bloodType, String address, String num) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -45,7 +45,7 @@ public class Patient {
 		this.observation = observation;
 		this.bloodType = bloodType;
 		this.address = address;
-		this.number = number;
+		this.num = num;
 	}
 
 	public Long getId() {
@@ -119,11 +119,11 @@ public class Patient {
 		this.address = address;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getNum() {
+		return num;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setNum(String num) {
+		this.num = num;
 	}
 }

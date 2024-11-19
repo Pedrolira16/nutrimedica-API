@@ -16,11 +16,11 @@ public class PatientRepository {
     }
 
     public void createPatient(Patient patient) {
-        String sql = "INSERT INTO patients (name, cpf, email, cellphone, born_date, observation, blood_type, address, number)" +
+        String sql = "INSERT INTO patients (name, cpf, email, cellphone, born_date, observation, blood_type, address, num)" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(sql, patient.getName(), patient.getCpf(), patient.getEmail(), patient.getCellphone(),
-                            patient.getBornDate(), patient.getObservation(), patient.getBloodType(), patient.getAddress(), patient.getNumber());
+                            patient.getBornDate(), patient.getObservation(), patient.getBloodType(), patient.getAddress(), patient.getNum());
     }
 
     public Optional<Patient> findById(Long id) {
@@ -39,7 +39,7 @@ public class PatientRepository {
                                 rs.getString("observation"),
                                 rs.getString("blood_type"),
                                 rs.getString("address"),
-                                rs.getString("number")
+                                rs.getString("num")
                         ))
                         : Optional.empty()
         );
@@ -59,7 +59,7 @@ public class PatientRepository {
                         rs.getString("observation"),
                         rs.getString("blood_type"),
                         rs.getString("address"),
-                        rs.getString("number")
+                        rs.getString("num")
                 )
         );
     }
@@ -70,8 +70,8 @@ public class PatientRepository {
     }
 
     public void updatePatient(Patient patient) {
-        String sql = "UPDATE patients SET name = ?, cpf = ?, email = ?, cellphone = ?, born_date = ?, observation = ?, blood_type = ? address = ?, number = ?, WHERE id = ?";
+        String sql = "UPDATE patients SET name = ?, cpf = ?, email = ?, cellphone = ?, born_date = ?, observation = ?, blood_type = ? address = ?, num = ?, WHERE id = ?";
         jdbcTemplate.update(sql, patient.getName(), patient.getCpf(), patient.getEmail(), patient.getCellphone(),
-                            patient.getBornDate(), patient.getObservation(), patient.getBloodType(),patient.getAddress(),patient.getNumber() ,patient.getId());
+                            patient.getBornDate(), patient.getObservation(), patient.getBloodType(),patient.getAddress(),patient.getNum() ,patient.getId());
     }
 }
