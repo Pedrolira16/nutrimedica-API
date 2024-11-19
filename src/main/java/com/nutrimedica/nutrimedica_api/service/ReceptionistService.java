@@ -15,7 +15,8 @@ public class ReceptionistService {
 		this.receptionistRepository = receptionistRepository;
 	}
 
-	public void createReceptionist(Receptionist receptionist) {
+	public void createReceptionist(Receptionist receptionist, Long userId) {
+		receptionist.setUserId(userId);
 		receptionistRepository.createReceptionist(receptionist);
 	}
 

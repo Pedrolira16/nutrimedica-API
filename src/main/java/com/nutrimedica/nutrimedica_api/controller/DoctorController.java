@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import com.nutrimedica.nutrimedica_api.dto.Specialty;
 
 @RestController
-@RequestMapping("users/doctors")
+@RequestMapping("users/register/doctors")
 public class DoctorController {
 
 	private final DoctorService doctorService;
@@ -22,8 +22,20 @@ public class DoctorController {
 	}
 
 	@PostMapping
-	public String createDoctor(@RequestBody Doctor doctor) {
-		doctorService.createDoctor(doctor);
+	public String createDoctor(@RequestBody Doctor doctor, HttpServletRequest request) {
+		String token = JwtUtil.extractToken(request);
+
+		if (token == null) {
+			return "Unauthorized: Invalid token.";
+		}
+
+		Long userId = JwtUtil.extractUserId(token);
+
+		if (userId == null) {
+			return "Unauthorized: Invalid token.";
+		}
+
+		doctorService.createDoctor(doctor,userId);
 		return "Doctor created successfully!";
 	}
 
@@ -46,9 +58,21 @@ public class DoctorController {
 	}
 
 	@PostMapping("/specialties")
-	public ResponseEntity<String> addSpecialty(@RequestParam Long id, @RequestBody Specialty specialty) {
+	public ResponseEntity<String> addSpecialty(HttpServletRequest request, @RequestBody Specialty specialty) {
+		String token = JwtUtil.extractToken(request);
+
+		if (token == null) {
+			return new ResponseEntity<>("Unauthorized: Invalid token.", HttpStatus.UNAUTHORIZED);
+		}
+
+		Long userId = JwtUtil.extractUserId(token);
+
+		if (userId == null) {
+			return new ResponseEntity<>("Unauthorized: Invalid token.", HttpStatus.UNAUTHORIZED);
+		}
+
 		String name = specialty.getName();
-		doctorService.addSpecialty(id, name);
+		doctorService.addSpecialty(userId, name);
 		return new ResponseEntity<>("Specialty added successfully!", HttpStatus.OK);
 	}
 }

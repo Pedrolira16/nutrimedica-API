@@ -16,7 +16,8 @@ public class DoctorService {
 		this.doctorRepository = doctorRepository;
 	}
 
-	public void createDoctor(Doctor doctor) {
+	public void createDoctor(Doctor doctor, Long userId) {
+		doctor.setUserId(userId);
 		doctorRepository.createDoctor(doctor);
 	}
 
