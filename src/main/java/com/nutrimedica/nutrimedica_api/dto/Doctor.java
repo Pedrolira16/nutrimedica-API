@@ -1,11 +1,12 @@
 package com.nutrimedica.nutrimedica_api.dto;
 
+import com.nutrimedica.nutrimedica_api.dto.Specialty;
 public class Doctor {
 	private Long userId;
 	private String councilName;
 	private String councilState;
 	private String councilNumber;
-
+	private Specialty specialty;
 
     public Doctor(long userId, String councilName, String councilState, String councilNumber) {
         this.userId = userId;
@@ -45,5 +46,13 @@ public class Doctor {
 
 	public void setCouncilNumber(String councilNumber) {
 		this.councilNumber = councilNumber;
+	}
+
+	public Specialty getSpecialty() {
+		return specialty;
+	}
+
+	public void setSpecialty(Specialty specialty) {
+		this.specialty = specialty;
 	}
 }
