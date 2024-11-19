@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS patients(
 	born_date DATE NOT NULL,
 	observation TEXT,
 	address VARCHAR(250),
-	nummber VARCHAR(25),
+	num VARCHAR(25),
 	blood_type VARCHAR(25),
 	is_deleted BOOLEAN DEFAULT FALSE,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
