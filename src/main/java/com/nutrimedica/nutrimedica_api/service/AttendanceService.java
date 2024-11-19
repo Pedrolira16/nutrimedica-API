@@ -93,4 +93,14 @@ public class AttendanceService {
 
         return statistics;
     }
+
+    public Map<String, Integer> getPerformancesStatistics() {
+        int getPerformancesStatistics = attendanceRepository.getPerformancesStatistics();
+
+        // Criando um Map para retornar o valor
+        Map<String, Integer> statistics = new HashMap<>();
+        statistics.put("getPerformancesStatistics", getPerformancesStatistics);
+
+        return statistics;
+    }
 }

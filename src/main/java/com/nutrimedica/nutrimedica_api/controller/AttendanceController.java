@@ -151,4 +151,22 @@ public class AttendanceController {
 		Map<String, Integer> statistics = attendanceService.getStatisticsByUser(userId);
 		return ResponseEntity.ok(statistics);
 	}
+
+	@GetMapping("/statistics/performances")
+	public ResponseEntity<?> getPerformancesStatistics(HttpServletRequest request) {
+		String token = JwtUtil.extractToken(request);
+
+		if (token == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
+		}
+
+		Long userId = JwtUtil.extractUserId(token);
+
+		if (userId == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token.");
+		}
+
+		Map<String, Integer> statistics = attendanceService.getPerformancesStatistics();
+		return ResponseEntity.ok(statistics);
+	}
 }

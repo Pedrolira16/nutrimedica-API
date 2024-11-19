@@ -111,4 +111,23 @@ public class AttendanceRepository {
 		String sql = "SELECT COUNT(*) FROM attendances WHERE done = false AND user_id = ?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, userId);
 	}
+
+	public int getPerformancesStatistics() {
+		String sql = "SELECT COUNT(*) FROM ( " +
+					 "    SELECT user_id, COUNT(*) AS total_attendances " +
+					 "    FROM attendances " +
+					 "    GROUP BY user_id " +
+					 "    HAVING total_attendances > ( " +
+					 "        SELECT AVG(total_attendances) " +
+					 "        FROM ( " +
+					 "            SELECT COUNT(*) AS total_attendances " +
+					 "            FROM attendances " +
+					 "            GROUP BY user_id " +
+					 "        ) AS attendance_counts " +
+					 "    ) " +
+					 ") AS users_above_average";
+
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+
 }
